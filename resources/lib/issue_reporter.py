@@ -28,6 +28,7 @@ import os
 import re
 import sys
 import urllib2
+import rollbar
 
 try:
   import simplejson as json
@@ -43,9 +44,13 @@ LOG_FILTERS = (
   ('<pass>.+?</pass>', '<pass>[FILTERED_PASSWORD]</pass>'),
 )
 
+ROLLBAR_API_TOKEN = 'd3402b7c1e3a4a758dc1f25d5eedf72a'
+
 class IssueReporter:
   def __init__(self, utils):
     self.utils = utils
+    env = 'development' if os.path.isdir(os.path.join(self.utils.addon_dir, '.git')) else 'production'
+    rollbar.init(ROLLBAR_API_TOKEN, env, handler='blocking', code_version='v%s' % self.utils.version, root=self.utils.addon_dir)
 
   def make_request(self, url):
     return urllib2.Request(url, headers={
@@ -57,7 +62,10 @@ class IssueReporter:
   def get_xbmc_log(self):
     from xbmcswift2 import xbmc
     log_path = xbmc.translatePath('special://logpath')
-    log_file_path = os.path.join(log_path, 'xbmc.log')
+    log_file_path = os.path.join(log_path, 'kodi.log')
+    if not os.path.exists(log_file_path):
+        log_file_path = os.path.join(log_path, 'xbmc.log')
+
     self.utils.log.debug("Reading log file from \"%s\"" % log_file_path)
     with open(log_file_path, 'r') as f:
       log_content = f.read()
@@ -72,29 +80,10 @@ class IssueReporter:
     except:
       return 'Unknown'
 
-  def format_issue(self, issue_data):
-    content = [
-      "*Automatic bug report from end-user.*\n## Environment\n"
-      "**Plugin Name:** %s" % self.utils.name,
-      "**Plugin ID:** %s" % self.utils.id,
-      "**Plugin Version:** %s" % self.utils.version,
-      "**XBMC Version:** %s" % self.get_xbmc_version(),
-      "**Python Version:** %s" % sys.version,
-      "**Operating System:** [%s] %s" % (sys.platform, ' '.join(os.uname())),
-      "**Python Path:**\n```\n%s\n```" % sys.path,
-      "\n## Traceback\n```\n%s\n```" % issue_data,
-    ]
-
-    log_url = self.upload_log()
-    if log_url:
-      content.append("\n[Full xbmc.log](%s)" % log_url)
-
-    return "\n".join(content)
-
   def upload_log(self):
     try:
       log_content = self.get_xbmc_log()
-    except Execption as e:
+    except Exception as e:
       self.utils.log.error("Failed to read log: %s" % e)
       return None
 
@@ -121,21 +110,27 @@ class IssueReporter:
       self.utils.log.error("Failed to parse API response: %s" % response.read())
 
   def report_issue(self, issue_data):
-    issue_body = self.format_issue(issue_data)
-    self.utils.log.debug("Issue Body: %s" % issue_body)
-
-    try:
-      response = urllib2.urlopen(self.make_request("%s/issues" % config.GITHUB_API_URL), json.dumps({
-        "title": "End-user bug report",
-        "body": issue_body
-      }))
-    except urllib2.HTTPError as e:
-      self.utils.log.error("Failed to report issue: HTTPError %s" % e.code)
-      return False
-    except urllib2.URLError as e:
-      self.utils.log.error("Failed to report issue: URLError %s" % e.reason)
-      return False
-    try:
-      return json.load(response)["html_url"]
-    except:
-      self.utils.log.error("Failed to parse API response: %s" % response.read())
+    log_url = self.upload_log()
+    rollbar.report_exc_info(
+    payload_data={
+      "request": {
+        "url": sys.argv[0],
+        "user_ip": "$remote_ip",
+      },
+      "addon": {
+        "name": self.utils.name,
+        "id": self.utils.id,
+        "version": self.utils.version
+      },
+      "client": {
+        "log_url": log_url,
+        "xbmc_version": self.get_xbmc_version(),
+        "python_version": sys.version,
+        "python_path": sys.path,
+        "os": {
+          "platform": sys.platform,
+          "uname": os.uname()
+        }
+      },
+      "platform": sys.platform
+    })

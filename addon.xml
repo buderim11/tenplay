@@ -3,6 +3,7 @@
         <import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.module.simplejson"/>
         <import addon="script.module.beautifulsoup"/>
+        <import addon="script.module.rollbar"/>
         <!--
         We use our own copy until https://github.com/jbeluch/python-brightcove/pull/2 is merged
         <import addon="script.module.brightcove"/>

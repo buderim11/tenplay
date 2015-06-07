@@ -24,16 +24,17 @@
 
 # Add ./resources/lib to the python path
 import os, sys
+global addon_dir
 try:
-  current_dir = os.path.dirname(os.path.abspath(__file__))
+  addon_dir = os.path.dirname(os.path.abspath(__file__))
 except:
-  current_dir = os.getcwd()
+  addon_dir = os.getcwd()
 
-sys.path.insert(0, os.path.join(current_dir, 'resources', 'lib'))
+sys.path.insert(0, os.path.join(addon_dir, 'resources', 'lib'))
 
 from networktenaddon import Addon
 
-addon = Addon()
+addon = Addon(addon_dir = addon_dir)
 
 if __name__ == '__main__':
   addon.run()

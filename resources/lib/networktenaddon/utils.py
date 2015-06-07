@@ -32,7 +32,8 @@ from version_check import VersionCheck
 from xbmcswift2 import xbmcgui, xbmcplugin
 
 class Utils:
-  def __init__(self, plugin):
+  def __init__(self, plugin, addon_dir=None):
+    self.addon_dir = addon_dir
     self.plugin = plugin
     self.log = plugin.log
     self.name = plugin.name
@@ -42,7 +43,7 @@ class Utils:
   def log_init(self):
     self.log.debug('Initialising %s addon, v%s' % (self.name, self.version))
 
-  def handle_error(self, err=""):
+  def handle_error(self, err="", addon_dir=None):
     traceback_str = traceback.format_exc()
     self.log.error(traceback_str)
     report_issue = False
@@ -52,7 +53,7 @@ class Utils:
       message = self.dialog_error_msg(err)
       if version_checker.is_latest_version(self.version):
         try:
-          message.append("Would you like to report this issue to GitHub?")
+          message.append("Would you like to report this issue?")
           report_issue = d.yesno(*message)
         except:
           message.append("If this error continues to occur, please report it on GitHub.")

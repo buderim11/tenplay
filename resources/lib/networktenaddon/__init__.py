@@ -31,7 +31,9 @@ from utils import Utils
 from xbmcswift2 import Plugin
 
 class Addon:
-  def __init__(self):
+  def __init__(self, addon_dir=None):
+    self.addon_dir = addon_dir
+
     self.plugin = Plugin()
     self.plugin.register_module(menu.Module(), '')
     self.plugin.register_module(showlist.Module(), '')
@@ -39,7 +41,7 @@ class Addon:
     self.plugin.register_module(videolist.Module(), '')
     self.plugin.register_module(play.Module(), '')
 
-    self.utils = Utils(self.plugin)
+    self.utils = Utils(self.plugin, addon_dir=self.addon_dir)
     self.utils.log_init()
 
   def run(self):
