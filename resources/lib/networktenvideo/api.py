@@ -84,7 +84,7 @@ class NetworkTenVideo:
     try:
       self.fan_art_bootstarp = json.loads(self._request(FANART_BOOTSTRAP_URL))
     except Exception, e:
-      pass
+      self.fan_art_bootstarp = {}
     try:
       self.overrides = json.loads(self._request(OVERRIDES_URL))
     except Exception, e:
