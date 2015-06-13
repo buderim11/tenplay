@@ -107,7 +107,7 @@ class NetworkTenVideo:
     return resp
 
   def get_fanart(self, show):
-    return "http://localhost:8880/fanart?" + urllib.urlencode({ 'id': show['ShowPageItemId'], 'channel': show['Channel'], 'title': show['Title'] })
+    return "http://tenplayimgsvr.herokuapp.com/fanart?" + urllib.urlencode({ 'id': show['ShowPageItemId'], 'channel': show['Channel'], 'title': show['Title'] })
 
   def get_homepage(self, state='vic'):
     resp = self._request('https://v.tenplay.com.au/api/Homepage/index?state=%s' % state)
