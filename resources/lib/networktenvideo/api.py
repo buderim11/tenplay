@@ -42,7 +42,7 @@ import sys
 import re
 import base64
 import urlparse
-import urllib2
+import urllib, urllib2
 from datetime import datetime
 from brightcove.api import Brightcove
 from brightcove.core import get_item
@@ -107,64 +107,7 @@ class NetworkTenVideo:
     return resp
 
   def get_fanart(self, show):
-    # use pre-calculated from bootstrap
-    if self.fan_art_bootstarp and show['ShowPageItemId'] in self.fan_art_bootstarp:
-        return self.fan_art_bootstarp[show['ShowPageItemId']]
-
-    print "Fanart Bootstrap Miss for %s with id %s" % (show['Title'], show['ShowPageItemId'])
-
-    if not 'Channel' in show:
-      return None
-
-    # educated guesses
-    channel = re.sub(r'[^a-z0-9A-Z-]+','', show['Channel'].lower().replace(' ','-'))
-    show_name = re.sub(r'[^a-z0-9A-Z-]+','', show['Title'].lower().replace(' ','-'))
-
-    # try to determine correct show url
-    try:
-      resp = self._request(EPISODES_URL % show['ShowPageItemId'])
-      episode_list_html = BeautifulSoup(resp)
-      urls = episode_list_html.findAll('a', {'href': True})
-      for url in urls:
-        url = url['href']
-        if url.startswith('/' + channel):
-          show_name = url.split('/')[2]
-          break
-    except Exception, e:
-      pass
-
-    # find the fanart on the show url
-    if len(channel) == 0 or len(show_name) == 0:
-      return None
-
-    # load the show url and try and find the first image that isn't a screenshot from a video
-    try:
-      resp = self._request('http://tenplay.com.au/' + channel + '/' + show_name)
-      show_page_html = BeautifulSoup(resp)
-      images = show_page_html.find('div', 'marquee-container').findAll('div', 'marquee-image')
-      for image in images:
-        url = image.find('div', {'data-src': True})['data-src']
-        if url.startswith('//'):
-          url = 'http:' + url
-        if url.startswith('http://iprx.ten.com.au/ImageHandler.ashx') or len(url) == 0:
-          continue
-        url = url.split('?')[0]
-        print "Using fanart from show page: %s" % url
-        return url
-    except Exception, e:
-      pass
-
-    # fallback to a screenshot from the episode listing page
-    try:
-      images = episode_list_html.findAll('img', {'src': True})
-      for image in images:
-        if len(image['src']) != 0:
-          print "Using fanart from episode list: %s" % image['src']
-          return image['src']
-    except Exception, e:
-      pass
-
-    return None
+    return "http://localhost:8880/fanart?" + urllib.urlencode({ 'id': show['ShowPageItemId'], 'channel': show['Channel'], 'title': show['Title'] })
 
   def get_homepage(self, state='vic'):
     resp = self._request('https://v.tenplay.com.au/api/Homepage/index?state=%s' % state)
