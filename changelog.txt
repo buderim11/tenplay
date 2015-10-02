@@ -1,4 +1,7 @@
-[B]Version 0.5.8[/B]
+[B]Version 0.5.9[/B]
+- Update API token
+
+[B]Version v0.5.8[/B]
 - Handle errors loading fan art bootstrap file gracefully
 
 [B]Version v0.5.7[/B]
