@@ -49,7 +49,7 @@ from brightcove.core import get_item
 from networktenvideo.objects import AMFRendition, Show, ShowItemCollection, PlaylistItemCollection, MediaRenditionItemCollection
 from networktenvideo.amf import BrightCoveAMFHelper
 
-API_TOKEN = 'lWCaZyhokufjqe7H4TLpXwHSTnNXtqHxyMvoNOsmYA_GRaZ4zcwysw..'
+API_TOKEN = '90QPG7lQuLJAc4s82qA-T_UoDhz_VBFK6SGstWDB0jZH8eu1SZQDFA..'
 PLAYER_KEY = 'AQ~~,AAACAC_zRoE~,GmfXBj8vjuSBlqMYKWGHoiljZL-ccjXh'
 AMF_SEED = 'f94a0d8cf273ee668a1d9b7e6b7053148fb54065'
 SWF_URL = 'http://admin.brightcove.com/viewer/us20130702.1553/connection/ExternalConnection_2.swf'
