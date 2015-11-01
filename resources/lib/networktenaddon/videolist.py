@@ -162,10 +162,10 @@ class Module(xbmcswift2.Module):
     if video.longDescription:
       info_dict['plot'] = video.longDescription
 
-    if '&' in info_dict['plot']:
+    if 'plot' in info_dict and '&' in info_dict['plot']:
       info_dict['plot'] = htmlparser.unescape(info_dict['plot'])
 
-    if '&' in info_dict['plotoutline']:
+    if 'plotoutline' in info_dict and '&' in info_dict['plotoutline']:
       info_dict['plotoutline'] = htmlparser.unescape(info_dict['plotoutline'])
 
     # Extract airdate from title, e.g. The Project
