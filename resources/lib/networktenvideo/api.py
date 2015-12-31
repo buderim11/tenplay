@@ -47,11 +47,8 @@ from datetime import datetime
 from brightcove.api import Brightcove
 from brightcove.core import get_item
 from networktenvideo.objects import AMFRendition, Show, ShowItemCollection, PlaylistItemCollection, MediaRenditionItemCollection
-from networktenvideo.amf import BrightCoveAMFHelper
 
 API_TOKEN = '90QPG7lQuLJAc4s82qA-T_UoDhz_VBFK6SGstWDB0jZH8eu1SZQDFA..'
-PLAYER_KEY = 'AQ~~,AAACAC_zRoE~,GmfXBj8vjuSBlqMYKWGHoiljZL-ccjXh'
-AMF_SEED = 'f94a0d8cf273ee668a1d9b7e6b7053148fb54065'
 SWF_URL = 'http://admin.brightcove.com/viewer/us20130702.1553/connection/ExternalConnection_2.swf'
 PAGE_URL = 'http://tenplay.com.au/'
 FANART_BOOTSTRAP_URL = 'https://gist.github.com/adammw/8662672/raw/fanart.json'
@@ -271,15 +268,8 @@ class NetworkTenVideo:
     return self.brightcove.search_videos(**params)
 
   def get_media_for_video(self, videoId=None, video=None):
-    # Note to self: Although we *can* access the video content via the Media API
-    # (docs: http://support.brightcove.com/en/video-cloud/docs/accessing-video-content-media-api)
-    # and it's much easier/flexible, we aren't so as not to arouse suspicion and to future proof the library
-    #self.brightcove.find_video_by_id(video.id, fields='length,renditions,FLVURL')
-    amfHelper = BrightCoveAMFHelper(PLAYER_KEY, videoId, PAGE_URL, AMF_SEED)
-    if amfHelper.data:
-      return get_item({'items': amfHelper.data['renditions']}, MediaRenditionItemCollection)
-    else:
-      return get_item({'items': []}, MediaRenditionItemCollection)
+    video = self.brightcove.find_video_by_id(videoId, fields='renditions', media_delivery='http')
+    return video.renditions
 
   def get_fallback_media_for_video(self, videoId=None):
     video = self.brightcove.find_video_by_id(videoId, video_fields='FLVFullLength')

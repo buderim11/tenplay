@@ -40,13 +40,13 @@ class Module(xbmcswift2.Module):
   def play(self, videoId):
     api = NetworkTenVideo()
     media = api.get_media_for_video(videoId)
-    self.log.debug('Found media renditions for video: %s', repr(media.items))
-    if len(media.items):
+    self.log.debug('Found media renditions for video: %s', repr(media))
+    if len(media):
         # Blindly go for the highest bitrate for now.
         # Later versions could include a customisable setting of which stream to use
-        media_sorted = sorted(media.items, key=lambda m: m.encodingRate, reverse=True)
+        media_sorted = sorted(media, key=lambda m: m.encodingRate, reverse=True)
         media = media_sorted[0]
-        path = media.defaultURL
+        path = media.url
         self.log.info('Using rendition: %s with url: %s' % (media, path))
     else:
         # Fallback to API FLVFullLength (e.g. for live streams)
