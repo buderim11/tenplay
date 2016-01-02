@@ -81,8 +81,8 @@ class Module(xbmcswift2.Module):
       item.set_info( "video", self.get_item_info(video))
       item.add_stream_info('video', {
         'codec': 'h264',
-        'width': 944,
-        'height': 528,
+        'width': 1024,
+        'height': 576,
         'duration': float(video.length / 1000)
       })
       item.add_stream_info('audio', {
