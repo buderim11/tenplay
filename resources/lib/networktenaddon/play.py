@@ -51,8 +51,13 @@ class Module(xbmcswift2.Module):
     else:
         # Fallback to API FLVFullLength (e.g. for live streams)
         media = api.get_fallback_media_for_video(videoId)
-        path = media.remoteUrl
-        self.log.info('Using fallback rendition: %s with url: %s' % (media, path))
+        if media.remoteUrl:
+          path = media.remoteUrl
+          self.log.info('Using fallback rendition: %s with url: %s' % (media, path))
+        else:
+          # attempt to deal with DRM'd content by falling back to mobile HLS stream
+          path = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId=%s" % videoId
+          self.log.info('Using fallback rendition unavailable - falling back to mobile HLS stream: %s' % path)
 
     if path.startswith('rtmp'):
       path = path.replace('&mp4:', ' playpath=mp4:')
