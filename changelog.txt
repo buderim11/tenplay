@@ -1,4 +1,6 @@
-[B]Version 0.5.12[/B]
+[B]Version 0.5.13[/B]
+- Fix invalid TV Show query
+- Version 0.5.12
 - Use HLS for DRM/DASH content
 - Update default video size reported
 - Version 0.5.11
@@ -32,6 +34,9 @@
 - Add resources/lib to start of path instead of end
 
 [B]Version v0.5.2[/B]
+- Version 0.5.12
+- Use HLS for DRM/DASH content
+- Update default video size reported
 - Version 0.5.11
 - Remove AMF media for HTTP delivery
 - Version 0.5.10
@@ -54,6 +59,10 @@
 - Version 0.5.3
 - Add extra metadata to addon descriptor
 - Add resources/lib to start of path instead of end
+
+[B]Version v0.5.12[/B]
+- Use HLS for DRM/DASH content
+- Update default video size reported
 
 [B]Version v0.5.11[/B]
 - Remove AMF media for HTTP delivery
