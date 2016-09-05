@@ -113,7 +113,12 @@ class Module(xbmcswift2.Module):
             query['all'] = []
           elif not isinstance(query['all'], list):
             query['all'] = [ query['all'] ]
+
           query['all'].append('video_type_long_form:Full Episode')
+
+          # some shows (Australian Survivor) have typos in the query, which break with exact matching
+          if 'video_type_long_form:Full Episodes' in query['all']:
+            query['all'].remove('video_type_long_form:Full Episodes')
         else:
           continue
 
