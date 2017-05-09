@@ -42,11 +42,15 @@ import sys
 import re
 import base64
 import urlparse
-import urllib2
+import requests
+import ssl
 from datetime import datetime
 from brightcove.api import Brightcove
 from brightcove.core import get_item
 from networktenvideo.objects import AMFRendition, Show, ShowItemCollection, PlaylistItemCollection, MediaRenditionItemCollection
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from requests.packages.urllib3.poolmanager import PoolManager
 
 API_TOKEN = '90QPG7lQuLJAc4s82qA-T_UoDhz_VBFK6SGstWDB0jZH8eu1SZQDFA..'
 SWF_URL = 'http://admin.brightcove.com/viewer/us20130702.1553/connection/ExternalConnection_2.swf'
@@ -69,6 +73,15 @@ DEFAULT_SEARCH_ARGS = {
   'page_size': 100,
   'page_number': 0
 }
+# Ignore InsecureRequestWarning warnings
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+class TLSv1Adapter(HTTPAdapter):
+    def init_poolmanager(self, connections, maxsize, block=False):
+        self.poolmanager = PoolManager(num_pools=connections,
+                                       maxsize=maxsize,
+                                       block=block,
+                                       ssl_version=ssl.PROTOCOL_TLSv1)
 
 class NetworkTenVideo:
   def __init__(self, caching_decorator=None):
@@ -95,12 +108,19 @@ class NetworkTenVideo:
 
   def _request(self, url, data=None):
     '''Returns a response for the given url and data.'''
-    request = urllib2.Request(url, headers={"X-Network-Ten-Auth": self._authToken(), 'Accept-Encoding': ''})
-    conn = urllib2.urlopen(request, data)
-    if conn.getcode() is not 200:
-      raise Exception('Request Failure: ' + url)
-    resp = conn.read()
-    conn.close()
+    with requests.Session() as session:
+        session.verify = False
+        session.mount("https://", TLSv1Adapter(max_retries=5))
+        headers = {"X-Network-Ten-Auth": self._authToken(), 'Accept-Encoding': ''}
+        if data:
+            method = 'POST'
+        else:
+            method = 'GET'
+        request = session.request(method=method, url=url, data=data, headers=headers)
+        #request = urllib2.Request(url, headers={"X-Network-Ten-Auth": self._authToken(), 'Accept-Encoding': ''})
+        if request.status_code is not 200:
+          raise Exception('Request Failure: ' + url)
+        resp = request.text
     return resp
 
   def get_fanart(self, show):
