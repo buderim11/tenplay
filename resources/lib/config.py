@@ -1,28 +1,17 @@
-#
-#   Network Ten CatchUp TV Video Addon
-#
-#   Copyright (c) 2013 Adam Malcontenti-Wilson
-#
-#   Permission is hereby granted, free of charge, to any person obtaining a copy
-#   of this software and associated documentation files (the "Software"), to deal
-#   in the Software without restriction, including without limitation the rights
-#   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#   copies of the Software, and to permit persons to whom the Software is
-#   furnished to do so, subject to the following conditions:
-#
-#   The above copyright notice and this permission notice shall be included in
-#   all copies or substantial portions of the Software.
-#
-#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#   THE SOFTWARE.
-#
+# flake8: noqa
+import version
 
-GITHUB_API_URL = 'https://api.github.com/repos/xbmc-catchuptv-au/plugin.video.catchuptv.au.ten'
-GITHUB_API_AUTH = 'eGJtY2JvdDo1OTQxNTJjMTBhZGFiNGRlN2M0YWZkZDYwZGQ5NDFkNWY4YmIzOGFj'
+NAME = 'tenplay'
+ADDON_ID = 'plugin.video.tenplay'
+VERSION = version.VERSION
+
+GITHUB_API_URL = 'https://api.github.com/repos/glennguy/plugin.video.tenplay'
+ISSUE_API_URL = GITHUB_API_URL + '/issues'
+ISSUE_API_AUTH = 'eGJtY2JvdDo1OTQxNTJjMTBhZGFiNGRlN2M0YWZkZDYwZGQ5NDFkNWY4YmIzOGFj'
 GIST_API_URL = 'https://api.github.com/gists'
-CACHE_TTL = 15 # in minutes
+
+CATEGORIES = ['Featured', 'TV Shows', 'News']
+SHOWLIST_URL = "http://vod.ten.com.au/config/android-v2"
+EPISODEQUERY_URL = "https://v.tenplay.com.au/api/videos/bcquery?command=search_videos&state=act&isMetro=false{0}&get_item_count=true&page_size=30&page_number={1}&video_fields=id,shortDescription,length,videoStillURL,startDate,endDate,ssa_url&custom_fields=start_date_app,clip_title,tv_channel,tv_show,restriction_bymember,tv_season,tv_week,web_content_url,program_classification&platformgroup=ott&platform=YW5kcm9pZA%3D%3D&all=video_type_long_form:Full+Episodes&all=tv_season:{2}"
+BRIGHTCOVE_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId={0}"
+FEATURED_URL = "https://v.tenplay.com.au/api/Homepage/index?state=act"

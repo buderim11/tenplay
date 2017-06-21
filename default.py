@@ -1,40 +1,62 @@
+# Copyright 2016 Glenn Guy
+# This file is part of tenplay Kodi Addon
 #
-#   Network Ten CatchUp TV Video Addon
+# tenplay is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#   Copyright (c) 2013 Adam Malcontenti-Wilson
+# tenplay is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#   Permission is hereby granted, free of charge, to any person obtaining a copy
-#   of this software and associated documentation files (the "Software"), to deal
-#   in the Software without restriction, including without limitation the rights
-#   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#   copies of the Software, and to permit persons to whom the Software is
-#   furnished to do so, subject to the following conditions:
-#
-#   The above copyright notice and this permission notice shall be included in
-#   all copies or substantial portions of the Software.
-#
-#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#   THE SOFTWARE.
-#
+# You should have received a copy of the GNU General Public License
+# along with tenplay.  If not, see <http://www.gnu.org/licenses/>.
 
-# Add ./resources/lib to the python path
-import os, sys
-global addon_dir
-try:
-  addon_dir = os.path.dirname(os.path.abspath(__file__))
-except:
-  addon_dir = os.getcwd()
+import os
+import sys
+import xbmc
+import xbmcaddon
+from urlparse import parse_qsl
 
-sys.path.insert(0, os.path.join(addon_dir, 'resources', 'lib'))
+addon = xbmcaddon.Addon()
+cwd = xbmc.translatePath(addon.getAddonInfo('path')).decode("utf-8")
+BASE_RESOURCE_PATH = os.path.join(cwd, 'resources', 'lib')
+sys.path.append(BASE_RESOURCE_PATH)
 
-from networktenaddon import Addon
+import menu  # noqa: E402
+import play  # noqa: E402
 
-addon = Addon(addon_dir = addon_dir)
+_url = sys.argv[0]
+_handle = int(sys.argv[1])
+
+addonname = addon.getAddonInfo('name')
+addon_path = addon.getAddonInfo("path")
+fanart = os.path.join(addon_path, 'fanart.jpg')
+
+
+def router(paramstring):
+    """
+    Router function that calls other functions
+    depending on the provided paramstring
+    :param paramstring:
+    """
+    params = dict(parse_qsl(paramstring))
+    if params:
+        if params['action'] == 'listcategories':
+            if params['category'] == 'Featured':
+                menu.list_featured()
+            else:
+                menu.list_shows(params)
+        elif params['action'] == 'listshows':
+            menu.list_episodes(params)
+        elif (params['action'] == 'listepisodes'
+              or params['action'] == 'listfeatured'):
+            play.play_video(params)
+    else:
+        menu.list_categories()
+
 
 if __name__ == '__main__':
-  addon.run()
+    router(sys.argv[2][1:])
