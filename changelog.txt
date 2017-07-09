@@ -1,11 +1,12 @@
-[B]Version 0.5.13[/B]
+[B]Version v0.5.13-4-gc57cb39[/B]
+- add travis.yml
+- Update README.markdown
+- Use new version
+- Fix for LibreELEC SSL errors
 - Fix invalid TV Show query
-- Version 0.5.12
 - Use HLS for DRM/DASH content
 - Update default video size reported
-- Version 0.5.11
 - Remove AMF media for HTTP delivery
-- Version 0.5.10
 - Handle videos with missing description
 
 [B]Version v0.5.9[/B]
@@ -34,31 +35,25 @@
 - Add resources/lib to start of path instead of end
 
 [B]Version v0.5.2[/B]
-- Version 0.5.12
+- Fix invalid TV Show query
 - Use HLS for DRM/DASH content
 - Update default video size reported
-- Version 0.5.11
 - Remove AMF media for HTTP delivery
-- Version 0.5.10
 - Handle videos with missing description
-- Version 0.5.9
 - Update API token
-- Version 0.5.8
 - Handle errors loading fan art bootstrap file gracefully
-- Version 0.5.7
 - Replace GitHub with Rollbar exception tracking
-- Version 0.5.6
 - Add Live Streaming of Glasgow 2014 Commonwealth Games
-- Version 0.5.5
 - Refactor media fallback into networktenvideo lib
 - Add fallback to FLVFullLength to try to support live streams
 - Add version check before reporting issue
-- Version 0.5.4
 - Fix fanart and update listing for previous/next
 - Guard against None fanart
-- Version 0.5.3
 - Add extra metadata to addon descriptor
 - Add resources/lib to start of path instead of end
+
+[B]Version v0.5.13[/B]
+- Fix invalid TV Show query
 
 [B]Version v0.5.12[/B]
 - Use HLS for DRM/DASH content
@@ -69,25 +64,17 @@
 
 [B]Version v0.5.10[/B]
 - Handle videos with missing description
-- Version 0.5.9
 - Update API token
-- Version 0.5.8
 - Handle errors loading fan art bootstrap file gracefully
-- Version 0.5.7
 - Replace GitHub with Rollbar exception tracking
-- Version 0.5.6
 - Add Live Streaming of Glasgow 2014 Commonwealth Games
-- Version 0.5.5
 - Refactor media fallback into networktenvideo lib
 - Add fallback to FLVFullLength to try to support live streams
 - Add version check before reporting issue
-- Version 0.5.4
 - Fix fanart and update listing for previous/next
 - Guard against None fanart
-- Version 0.5.3
 - Add extra metadata to addon descriptor
 - Add resources/lib to start of path instead of end
-- Version 0.5.2
 - Ignore SystemExit and KeyboardInterrupt bug reports
 
 [B]Version v0.5.1[/B]
@@ -99,6 +86,7 @@
 - Fix up imports
 
 [B]Version v0.5.0[/B]
+- v0.5.0
 - Implement featured videos listing
 - Prevent shows without queries appearing
 - Handle more custom fields
@@ -106,26 +94,6 @@
 - add paging, news art, sorting
 - bump version and update
 - Use xbmcswift2 framework
-- version 0.4.0
 
 [B]Version v0.4.0[/B]
-- check for addStreamInfo for pre-Frodo XBMC compatibility
-- extract episode number from custom field
-- fix get_item_count parameter
-- increase default page size
-- add more metadata fields
-- fix date formatting
-- fix episode number parsing
-- escape html entities in title and description
-- extract more metadata
-- add sorting functionality
-- fix swf verification url
-- fix and improve metadata
-- enable swf verification
-- update version
-- update addon and lib for brightcove-based cdn api
-- simplify advertisement logic
-- Update changelog.txt
-- part stacking, metadata improvements
-- fix token bug
-
+- Initial version
