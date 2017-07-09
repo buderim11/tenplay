@@ -8,6 +8,7 @@ import urllib
 import textwrap
 import xbmc
 import xbmcgui
+import xbmcaddon
 import config
 import issue_reporter
 
@@ -87,8 +88,13 @@ def ensure_ascii(s):
         return s
 
 
+def get_version():
+    addon = xbmcaddon.Addon()
+    return addon.getAddonInfo('version')
+
+
 def log(s):
-    xbmc.log("[%s v%s] %s" % (config.NAME, config.VERSION, s),
+    xbmc.log("[%s v%s] %s" % (config.NAME, get_version(), s),
              level=xbmc.LOGNOTICE)
 
 
@@ -96,14 +102,14 @@ def dialog_error(err=None):
     """Generate a list of lines for use in XBMC dialog"""
     content = []
     exc_type, exc_value, exc_tb = sys.exc_info()
-    content.append("%s v%s Error" % (config.NAME, config.VERSION))
+    content.append("%s v%s Error" % (config.NAME, get_version()))
     content.append(str(exc_value))
     return content
 
 
 def dialog_message(msg, title=None):
     if not title:
-        title = "%s v%s" % (config.NAME, config.VERSION)
+        title = "%s v%s" % (config.NAME, get_version())
     # Add title to the first pos of the textwrap list
     content = textwrap.wrap(msg, 60)
     content.insert(0, title)
@@ -235,7 +241,7 @@ def handle_error(msg, exc=None):
         if send_error:
             latest_version = issue_reporter.get_latest_version()
             version_string = '.'.join([str(i) for i in latest_version])
-            if not issue_reporter.is_latest_version(config.VERSION,
+            if not issue_reporter.is_latest_version(get_version(),
                                                     latest_version):
                 message.append("Your version of this add-on is outdated. "
                                "Please try upgrading to the latest version: "
@@ -262,7 +268,7 @@ def handle_error(msg, exc=None):
         if issue_url:
             # Split the url here to make sure it fits in our dialog
             split_url = issue_url.replace('/xbmc', ' /xbmc')
-            d.ok("%s v%s Error" % (config.NAME, config.VERSION),
+            d.ok("%s v%s Error" % (config.NAME, get_version()),
                  "Thanks! Your issue has been reported to: %s" % split_url)
             # Touch our file to prevent more than one error report
             save_last_error_report(traceback_str)
