@@ -1,8 +1,9 @@
-import sys
 import comm
+import sys
 import xbmcgui
 import xbmcplugin
-import utils
+
+from aussieaddonscommon import utils
 
 _url = sys.argv[0]
 _handle = int(sys.argv[1])
@@ -48,8 +49,8 @@ def list_shows(params):
             _handle, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
         xbmcplugin.addDirectoryItems(_handle, listing, len(listing))
         xbmcplugin.endOfDirectory(_handle)
-    except Exception as e:
-        utils.handle_error('Unable to list shows', exc=e)
+    except Exception:
+        utils.handle_error('Unable to list shows')
 
 
 def list_episodes(params):
@@ -81,8 +82,8 @@ def list_episodes(params):
                 listing.append((url, li, is_folder))
         xbmcplugin.addDirectoryItems(_handle, listing, len(listing))
         xbmcplugin.endOfDirectory(_handle)
-    except Exception as e:
-        utils.handle_error('Unable to list episodes', exc=e)
+    except Exception:
+        utils.handle_error('Unable to list episodes')
 
 
 def list_featured():
@@ -103,5 +104,5 @@ def list_featured():
             _handle, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
         xbmcplugin.addDirectoryItems(_handle, listing, len(listing))
         xbmcplugin.endOfDirectory(_handle)
-    except:
-        utils.handle_error('Unable to list featured', exc=e)
+    except Exception:
+        utils.handle_error('Unable to list featured')

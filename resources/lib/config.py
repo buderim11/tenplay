@@ -1,9 +1,7 @@
 # flake8: noqa
-import version
 
 NAME = 'tenplay'
 ADDON_ID = 'plugin.video.catchuptv.au.ten'
-VERSION = version.VERSION
 
 GITHUB_API_URL = 'https://api.github.com/repos/xbmc-catchuptv-au/plugin.video.catchuptv.au.ten'
 ISSUE_API_URL = GITHUB_API_URL + '/issues'

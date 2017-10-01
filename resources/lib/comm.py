@@ -1,21 +1,23 @@
 import base64
+import classes
+import config
 import json
 import time
 import urllib
-import custom_session
-import classes
-import config
+
+from aussieaddonscommon import session
 
 
 def create_authheader():
+    """Generate token to use for all API requests"""
     timestr = time.strftime("%Y%m%d%H%M%S", time.gmtime())
     encoded = base64.b64encode(timestr)
     return {"X-Network-Ten-Auth": encoded}
 
 
 def fetch_url(url):
-    with custom_session.Session(force_tlsv1=True) as session:
-        res = session.get(url, headers=create_authheader())
+    with session.Session(force_tlsv1=True) as sess:
+        res = sess.get(url, headers=create_authheader())
         return res.text
 
 
