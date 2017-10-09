@@ -4,6 +4,8 @@ import xbmc
 import xbmcaddon
 from urlparse import parse_qsl
 
+from aussieaddonscommon import utils
+
 addon = xbmcaddon.Addon()
 cwd = xbmc.translatePath(addon.getAddonInfo('path')).decode("utf-8")
 BASE_RESOURCE_PATH = os.path.join(cwd, 'resources', 'lib')
@@ -11,13 +13,6 @@ sys.path.append(BASE_RESOURCE_PATH)
 
 import menu  # noqa: E402
 import play  # noqa: E402
-
-_url = sys.argv[0]
-_handle = int(sys.argv[1])
-
-addonname = addon.getAddonInfo('name')
-addon_path = addon.getAddonInfo("path")
-fanart = os.path.join(addon_path, 'fanart.jpg')
 
 
 def router(paramstring):
@@ -38,6 +33,8 @@ def router(paramstring):
         elif (params['action'] == 'listepisodes'
               or params['action'] == 'listfeatured'):
             play.play_video(params)
+        elif params['action'] == 'sendreport':
+            utils.user_report()
     else:
         menu.list_categories()
 

@@ -60,7 +60,7 @@ def get_episodes(params):
         e.fanart = urllib.unquote(params['fanart'])
         e.title = episode[u'customFields'][u'clip_title']
         e.desc = episode[u'shortDescription']
-        e.duration = episode[u'length']//1000
+        e.duration = episode[u'length']/1000
         e.airdate = episode[u'customFields'][u'start_date_act']
         e.page = int(page)
         e.id = episode[u'id']
