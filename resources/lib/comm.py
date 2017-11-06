@@ -54,7 +54,9 @@ def get_episodes(params):
         e = classes.episode()
         e.thumb = episode['videoStillURL']
         e.fanart = urllib.unquote(params.get('fanart', ''))
-        e.title = episode['customFields']['clip_title']
+        e.title = episode['customFields'].get('clip_title')
+        if not e.title:
+            e.title = episode.get('name')
         e.desc = episode['shortDescription']
         e.duration = episode['length']/1000
         e.airdate = episode['customFields']['start_date_act']
