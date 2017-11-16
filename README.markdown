@@ -1,43 +1,43 @@
-Network Ten plugin for XBMC
-================================
+# tenplay add-on for Kodi
 
-This plugin provides a simple list of available videos from Network Ten 
-websites, and allows you to watch them in XBMC.
+http://aussieaddons.com/addons/ten/
 
-The content is only available within Australia from an Australian IP address.
+This add-on provides a simple list of available programs from the tenplay catch-up TV service, and allows you to stream them within Kodi.
 
-Installation
-------------
-This latest stable release of this add-on is available as part of the 
-[XBMC CatchUp TV AU repository] [repository].
+The content is only available within Australia, but it is possible to use this service outside of Australia by using Smart DNS or VPN geo-unblocking tools.
 
-If you prefer, you can grab the stable release ZIP file by itself from the 
-[Google Code project site download] [download].
+NOTE: If you are in Australia and are having issues streaming, you may need to disable any Smart DNS or VPN tools.
 
-For the latest development version, 
-you can grab the [GitHub generated ZIP file] [githubzip].
+## Installation
 
-Simply download the ZIP file to your XBMC device and install through the menu
-via System -> Settings -> Add-ons -> Install from zip file
+Follow the Aussie Add-ons repository [installation guide](http://aussieaddons.com/installation/) to set
+up the Aussie Add-ons repository.
 
-Issues
-------
-For any issues or bug reports, please file them on the [issues page] [issues].
+Once the repository is installed, you can install the tenplay add-on through the Kodi Add-on manager by accessing the menus:
 
-Please include log output if possible, using [Github Gist] [gist] or 
-[Pastebin.com] [pastebin].
+ * System ->
+ * Settings ->
+ * Add-ons ->
+ * Install from repository ->
+ * Aussie Add-ons (or XBMC CatchupTV AU Add-ons) ->
+ * Video add-ons ->
+ * tenplay ->
+ * Install
 
-The location of your XBMC log file will depend on your platform, 
-see the [XBMC Wiki page] [xbmc-wiki-log-file] for information.
+The Kodi wiki also has a nice guide on [installing Add-ons via the Add-on manager](http://kodi.wiki/view/Add-on_manager).
 
-Contact Me
-----------
-For anything else, you can contact me by email at adman.com@gmail.com
+Installing directly is not supported, unless you have the Aussie Add-ons/XBMC CatchupTV AU repository already configured, as this add-on has some dependencies that must be installed before it will work.
 
-[repository]: http://code.google.com/p/xbmc-catchuptv-au
-[download]: https://code.google.com/p/xbmc-catchuptv-au/downloads/list?q=label:Network-Ten
-[githubzip]: https://github.com/xbmc-catchuptv-au/plugin.video.catchuptv.au.ten/archive/master.zip
-[issues]: https://github.com/xbmc-catchuptv-au/plugin.video.catchuptv.au.ten/issues
-[gist]: https://gist.github.com
-[pastebin]: http://pastebin.com/
-[xbmc-wiki-log-file]: http://wiki.xbmc.org/index.php?title=Log_file/Advanced#Log_files
+
+## Issues
+
+For any issues or bug reports, please file them on the [issues page](https://github.com/xbmc-catchuptv-au/plugin.video.catchuptv.au.ten/issues).
+
+Please include log output, if possible. Follow the [log upload guide](http://kodi.wiki/view/Log_file/Easy) and include the URL it gives you in your bug report.
+
+
+## Contact
+
+For help and support, feel free to register on our [Slack channel](http://slack-invite.aussieaddons.com/).
+
+Good luck and happy viewing.
